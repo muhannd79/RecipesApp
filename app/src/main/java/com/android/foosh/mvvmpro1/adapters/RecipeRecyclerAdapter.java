@@ -88,7 +88,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public void displayLoading(){
-        Log.d("size:","displayLoading:Called...!");
+        Log.d("Adapter-inside:","displayLoading:Called...!");
         if(!isLoading()){
             Recipe recipe = new Recipe();
             recipe.setTitle("LOADING...");
@@ -100,12 +100,15 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     private boolean isLoading(){
+        Log.d("Adapter-inside:","isLoading:Called...!");
+
         if(mRecipes != null){
-            Log.d("size:","The size of mRecipes:"+mRecipes);
+            Log.d("Adapter-inside:","The size of mRecipes:"+mRecipes.size());
+            Log.d("Adapter-inside:","The size of mRecipes:"+mRecipes);
             if(mRecipes.size() > 0){
                 if(mRecipes.get(mRecipes.size() - 1).getTitle().equals("LOADING...")){
-                    Log.d("size:","The size of mRecipes:"+mRecipes.size());
-                    Log.d("size:","The size of mRecipes:"+mRecipes.get(mRecipes.size() - 1).getTitle());
+
+                    Log.d("Adapter-inside:","The size of mRecipes:"+mRecipes.get(mRecipes.size() - 1).getTitle());
                     return true;
                 }
             }
@@ -122,6 +125,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public void setRecipes(List<Recipe> recipes){
+        Log.d("Adapter-inside:","The size of mRecipes:"+mRecipes.size());
         mRecipes = recipes;
         notifyDataSetChanged();
     }
