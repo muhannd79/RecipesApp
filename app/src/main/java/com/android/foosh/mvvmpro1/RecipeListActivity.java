@@ -1,6 +1,7 @@
 package com.android.foosh.mvvmpro1;
 
 
+import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,17 +37,20 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
     private RecipeListViewModel mRecipeListViewModel;
     private RecyclerView recyclerView;
     private RecipeRecyclerAdapter mAdapter;
+
+    private SearchView mSearchView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_list);
         recyclerView =findViewById(R.id.recipe_list);
+        mSearchView = findViewById(R.id.search_view);
         Log.d("LifeCycle:", "onCreate");
         mRecipeListViewModel = ViewModelProviders.of(this).get(RecipeListViewModel.class);
 
         initRecyclerView();
         subscribeObservers();
-        searchRecipesApi("chicken breast",1);
+        initSearchView();
 
 
     }
@@ -70,6 +74,21 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
         });
     }
 
+    private void initSearchView(){
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                searchRecipesApi(query, 1);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+    }
 
     private void searchRecipesApi(String query, int pageNumber) {
         mRecipeListViewModel.searchRecipesApi(query, pageNumber);
