@@ -14,9 +14,12 @@ import java.util.List;
 public class RecipeListViewModel extends ViewModel {
 
     private RecipeRepository mRecipeRepository;
+    private boolean mIsViewingRecipes;
 
     // empty Constructor
     public RecipeListViewModel() {
+
+        mIsViewingRecipes =false;
         Log.d("LifeCycle:","RecipeListViewModel,Constructor");
         mRecipeRepository = RecipeRepository.getInstance();
 
@@ -29,6 +32,15 @@ public class RecipeListViewModel extends ViewModel {
     }
 
     public void searchRecipesApi(String query,int pageNumber){
+        mIsViewingRecipes=true; // stop showing the Category
         mRecipeRepository.searchRecipesApi(query,pageNumber);
+    }
+
+    public boolean ismIsViewingRecipes() {
+        return mIsViewingRecipes;
+    }
+
+    public void setmIsViewingRecipes(boolean mIsViewingRecipes) {
+        this.mIsViewingRecipes = mIsViewingRecipes;
     }
 }
