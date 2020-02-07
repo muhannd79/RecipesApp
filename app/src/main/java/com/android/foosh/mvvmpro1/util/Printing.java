@@ -11,7 +11,9 @@ public class Printing {
     public static void printRecipes(String tag, List<Recipe> recipes){
 
         for (Recipe recipe:recipes){
-            Log.d(tag,"printRecipes:"+recipe.getRecipe_id());
+            if(recipe.getTitle().contains("LOADING...")) {
+                Log.d(tag, "printRecipes:" + recipe.getRecipe_id());
+            }
         }
     }
 }

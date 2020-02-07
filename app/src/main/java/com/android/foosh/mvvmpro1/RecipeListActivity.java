@@ -67,6 +67,7 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
                 Log.d(TAG, "simsim");
                 if (recipes != null) {
                     Printing.printRecipes(TAG, recipes);
+                    Log.d(TAG, "if,");
                     mAdapter.setRecipes(recipes);
                 }
 
@@ -78,8 +79,10 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                Log.d(TAG,"displayLoading,called From Activites..!");
+                //(1)
                 mAdapter.displayLoading();
-                searchRecipesApi(query, 1);
+             //   searchRecipesApi(query, 1);
                 return false;
             }
 
@@ -94,44 +97,6 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
         mRecipeListViewModel.searchRecipesApi(query, pageNumber);
     }
 
-    private void testRetrofitrequest() {
-
-        final RecipeApi recipeApi = ServiceGenerator.getRecipeApi();
-
-        Call<RecipeSearchResponse> recipeListActivityCall = recipeApi.
-                searchRecipe(Constans.API_KEY, "chicken breast", "1");
-
-        recipeListActivityCall.enqueue(new Callback<RecipeSearchResponse>() {
-            @Override
-            public void onResponse(Call<RecipeSearchResponse> call, Response<RecipeSearchResponse> response) {
-
-                Log.d(TAG, "onResponse: server response:" + response.toString());
-
-                if (response.code() == 200 && response.body() != null) {
-
-                    Log.d(TAG, "onResponse:" + response.body().toString());
-                    List<Recipe> recipes = new ArrayList<>(response.body().getRecipes());
-                    for (Recipe recipe : recipes) {
-                        Log.d(TAG, "For Loop:" + recipe.getTitle());
-                    }
-
-                } else {
-                    try {
-                        Log.d(TAG, "Response:" + response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RecipeSearchResponse> call, Throwable t) {
-
-            }
-        });
-
-
-    }
 
     @Override
     public void onRecipeClick(int position) {
@@ -142,4 +107,43 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
     public void onCategoryClick(String category) {
 
     }
+
+//    private void testRetrofitrequest() {
+//
+//        final RecipeApi recipeApi = ServiceGenerator.getRecipeApi();
+//
+//        Call<RecipeSearchResponse> recipeListActivityCall = recipeApi.
+//                searchRecipe(Constans.API_KEY, "chicken breast", "1");
+//
+//        recipeListActivityCall.enqueue(new Callback<RecipeSearchResponse>() {
+//            @Override
+//            public void onResponse(Call<RecipeSearchResponse> call, Response<RecipeSearchResponse> response) {
+//
+//                Log.d(TAG, "onResponse: server response:" + response.toString());
+//
+//                if (response.code() == 200 && response.body() != null) {
+//
+//                    Log.d(TAG, "onResponse:" + response.body().toString());
+//                    List<Recipe> recipes = new ArrayList<>(response.body().getRecipes());
+//                    for (Recipe recipe : recipes) {
+//                        Log.d(TAG, "For Loop:" + recipe.getTitle());
+//                    }
+//
+//                } else {
+//                    try {
+//                        Log.d(TAG, "Response:" + response.errorBody().string());
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<RecipeSearchResponse> call, Throwable t) {
+//
+//            }
+//        });
+//
+//
+//    }
 }

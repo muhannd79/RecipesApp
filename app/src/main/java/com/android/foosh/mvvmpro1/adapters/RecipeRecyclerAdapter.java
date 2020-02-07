@@ -18,6 +18,7 @@ import java.util.List;
 
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final String TAG = "RecipeListActivity";
     private static final int RECIPE_TYPE = 1;
     private static final int LOADING_TYPE = 2;
 
@@ -87,9 +88,11 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     }
 
+    //(2)
     public void displayLoading(){
-        Log.d("Adapter-inside:","displayLoading:Called...!");
+        Log.d(TAG,"displayLoading:Called...!");
         if(!isLoading()){
+            Log.d(TAG,"displayLoading:Called,Enter (isLoading),");
             Recipe recipe = new Recipe();
             recipe.setTitle("LOADING...");
             List<Recipe> loadingList = new ArrayList<>();
@@ -100,16 +103,20 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
+    //(3)
     private boolean isLoading(){
-        Log.d("Adapter-inside:","isLoading:Called...!");
-
+        Log.d(TAG,"isLoading:Called...!");
+        boolean empty = mRecipes == null;
+        Log.d(TAG,"(mRecipes == null)== "+empty);
         if(mRecipes != null){
-            Log.d("Adapter-inside:","The size of mRecipes:"+mRecipes.size());
+
+            Log.d(TAG,"The size of mRecipes:"+mRecipes.size());
             Log.d("Adapter-inside:","The size of mRecipes:"+mRecipes);
+            // for the second search the MRecipe will not be empty so we need to check if not have the title Loading
+            // we need to retrun false
             if(mRecipes.size() > 0){
                 if(mRecipes.get(mRecipes.size() - 1).getTitle().equals("LOADING...")){
-
-                    Log.d("Adapter-inside:","The size of mRecipes:"+mRecipes.get(mRecipes.size() - 1).getTitle());
+                    Log.d(TAG,"The (Title) of mRecipes:"+mRecipes.get(mRecipes.size() - 1).getTitle());
                     return true;
                 }
             }
@@ -126,7 +133,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public void setRecipes(List<Recipe> recipes){
-        Log.d("Adapter-inside:","The size of mRecipes:"+mRecipes.size());
+        Log.d(TAG,"setRecipes,called="+mRecipes.size());
         mRecipes = recipes;
         notifyDataSetChanged();
     }
