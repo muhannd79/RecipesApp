@@ -94,6 +94,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             recipe.setTitle("LOADING...");
             List<Recipe> loadingList = new ArrayList<>();
             loadingList.add(recipe);
+            // add he one obj to the mRecipes List
             mRecipes = loadingList;
             notifyDataSetChanged();
         }
