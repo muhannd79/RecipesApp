@@ -94,12 +94,14 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             recipe.setTitle("LOADING...");
             List<Recipe> loadingList = new ArrayList<>();
             loadingList.add(recipe);
+            //update the mRecipe List with one obj
             mRecipes = loadingList;
             notifyDataSetChanged();
         }
     }
 
     private boolean isLoading(){
+
         if(mRecipes != null){
             Log.d("size:","The size of mRecipes:"+mRecipes);
             if(mRecipes.size() > 0){
