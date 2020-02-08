@@ -125,9 +125,15 @@ public class RecipeApiClient {
             return ServiceGenerator.getRecipeApi().searchRecipe(Constans.API_KEY, query, String.valueOf(pageNumber));
         }
 
-        private void CancelRequest() {
+        private void cancelRequest() {
             Log.d(TAG, "Cancel the Request");
             cancelRequest = true;
+        }
+    }
+
+    public void cancelRequest(){
+        if(mRetrieveRecipesRunnable !=null){
+            mRetrieveRecipesRunnable.cancelRequest();
         }
     }
 }

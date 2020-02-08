@@ -40,4 +40,8 @@ private RecipeApiClient mRecipeApiClient;
         }
         mRecipeApiClient.searchRecipesApi(query,pageNumber);
      }
+
+     public void cancelRequest(){
+        mRecipeApiClient.cancelRequest();
+     }
 }

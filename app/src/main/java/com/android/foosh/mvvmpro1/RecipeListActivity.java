@@ -74,9 +74,16 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
             public void onChanged(List<Recipe> recipes) {
                 Log.d(TAG, "simsim");
                 if (recipes != null) {
-                    Printing.printRecipes(TAG, recipes);
-                    Log.d(TAG, "if,");
-                    mAdapter.setRecipes(recipes);
+                    if(mRecipeListViewModel.ismIsViewingRecipes()){
+
+                        //that mean the query complete so we need to put false;
+                        mRecipeListViewModel.setmIsPerformingQuery(false);
+
+                        // Printing.printRecipes(TAG, recipes);
+                        // Log.d(TAG, "if,");
+                        mAdapter.setRecipes(recipes);
+                    }
+
                 }
 
             }
@@ -90,7 +97,8 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
                 Log.d(TAG,"displayLoading,called From Activites..!");
                 //(1)
                 mAdapter.displayLoading();
-             //   searchRecipesApi(query, 1);
+                searchRecipesApi(query, 1);
+                mSearchView.clearFocus(); // so when we click on back button it will stop the query (because the first click on back it close the focus)
                 return false;
             }
 
@@ -114,6 +122,7 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
     @Override
     public void onCategoryClick(String category) {
         mRecipeListViewModel.searchRecipesApi(category, 1);
+        mSearchView.clearFocus();
     }
 
     private void displaySearchCategories(){
@@ -121,7 +130,18 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
         mAdapter.displaySearchCategories();
     }
 
-//    private void testRetrofitrequest() {
+    @Override
+    public void onBackPressed() {
+        if(mRecipeListViewModel.onBackPressed()){
+            // if true close the App (That mean we are viewing the Categories)
+            super.onBackPressed();
+        } else{
+            displaySearchCategories();
+        }
+
+    }
+
+    //    private void testRetrofitrequest() {
 //
 //        final RecipeApi recipeApi = ServiceGenerator.getRecipeApi();
 //

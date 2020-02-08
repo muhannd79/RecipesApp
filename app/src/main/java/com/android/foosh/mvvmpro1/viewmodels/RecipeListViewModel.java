@@ -13,13 +13,15 @@ import java.util.List;
 
 public class RecipeListViewModel extends ViewModel {
 
+    private static final String TAG = "RecipeListViewModel";
     private RecipeRepository mRecipeRepository;
     private boolean mIsViewingRecipes;
-
+    private boolean mIsPerformingQuery;
     // empty Constructor
     public RecipeListViewModel() {
 
         mIsViewingRecipes =false;
+        mIsPerformingQuery =false;
         Log.d("LifeCycle:","RecipeListViewModel,Constructor");
         mRecipeRepository = RecipeRepository.getInstance();
 
@@ -33,6 +35,7 @@ public class RecipeListViewModel extends ViewModel {
 
     public void searchRecipesApi(String query,int pageNumber){
         mIsViewingRecipes=true; // stop showing the Category
+        mIsPerformingQuery =true;
         mRecipeRepository.searchRecipesApi(query,pageNumber);
     }
 
@@ -42,5 +45,28 @@ public class RecipeListViewModel extends ViewModel {
 
     public void setmIsViewingRecipes(boolean mIsViewingRecipes) {
         this.mIsViewingRecipes = mIsViewingRecipes;
+    }
+
+    public boolean onBackPressed(){
+      if(  mIsPerformingQuery){
+          Log.d(TAG,"");
+          // cancel the Query
+          mRecipeRepository.cancelRequest();
+      }
+        //IF users are viewing the Recipes
+       if(mIsViewingRecipes){
+            mIsViewingRecipes=false;
+            mIsPerformingQuery =false;
+            return false;
+        }
+        return true;
+    }
+
+    public boolean ismIsPerformingQuery() {
+        return mIsPerformingQuery;
+    }
+
+    public void setmIsPerformingQuery(boolean mIsPerformingQuery) {
+        this.mIsPerformingQuery = mIsPerformingQuery;
     }
 }
