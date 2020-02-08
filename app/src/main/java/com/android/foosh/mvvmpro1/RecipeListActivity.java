@@ -2,6 +2,7 @@ package com.android.foosh.mvvmpro1;
 
 
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -57,6 +60,9 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
             //display search category
             displaySearchCategories();
         }
+
+        // assosiate
+        setSupportActionBar((Toolbar)findViewById(R.id.toolbar));
 
     }
 
@@ -139,6 +145,21 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
             displaySearchCategories();
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == R.id.action_categories){
+            displaySearchCategories();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.recipe_search_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     //    private void testRetrofitrequest() {
