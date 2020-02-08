@@ -24,10 +24,12 @@ public class RecipeViewModel extends ViewModel {
 
 
     public void searchRecipeById(String recipeId){
+        mRecipeId = recipeId;
        mRecipeRepository.searchRecipeById(recipeId);
 
     }
 
-
-
+    public String getRecipeId() {
+        return mRecipeId;
+    }
 }

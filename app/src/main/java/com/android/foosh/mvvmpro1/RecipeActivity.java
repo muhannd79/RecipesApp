@@ -2,6 +2,8 @@ package com.android.foosh.mvvmpro1;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -14,6 +16,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.android.foosh.mvvmpro1.models.Recipe;
 import com.android.foosh.mvvmpro1.viewmodels.RecipeViewModel;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 public class RecipeActivity extends BaseActivity {
 
@@ -38,34 +42,78 @@ public class RecipeActivity extends BaseActivity {
         mRecipeViewModel = ViewModelProviders.of(this).get(RecipeViewModel.class);
         getIncomingIntent();
         subscribeObservers();
-
+        showProgressBar(true);
 
     }
 
-    private void getIncomingIntent(){
+    private void getIncomingIntent() {
 
-        if(getIntent().hasExtra("recipe")){
+        if (getIntent().hasExtra("recipe")) {
             Recipe recipe = getIntent().getParcelableExtra("recipe");
-            Log.d(TAG,"getIncomingIntent: "+recipe.getTitle());
+            Log.d(TAG, "getIncomingIntent: " + recipe.getTitle());
             mRecipeViewModel.searchRecipeById(recipe.getRecipe_id());
         }
     }
 
-    private void subscribeObservers(){
+    private void subscribeObservers() {
         mRecipeViewModel.getRecipe().observe(this, new Observer<Recipe>() {
             @Override
             public void onChanged(Recipe recipe) {
-                if(recipe != null){
-                    Log.d(TAG,"onChanged: ---------------------------------");
-                    Log.d(TAG,"onChanged:,"+recipe.getTitle());
-                    int i =1;
-                    for(String reg:recipe.getIngredients()){
+                if (recipe != null) {
 
-                        Log.d(TAG,"("+i+")-"+reg);
-                                i++;
+                    if (recipe.getRecipe_id().equals(mRecipeViewModel.getRecipeId())) {
+                        // to check we retrieve new Recipe
+                        // Because The Activity recreated and the Old recipe from the previous Activity still be in the ViewModel
+
+                        setRecipeProperties(recipe);
                     }
+
+//                    Log.d(TAG,"onChanged: ---------------------------------");
+//                    Log.d(TAG,"onChanged:,"+recipe.getTitle());
+//                    int i =1;
+//                    for(String reg:recipe.getIngredients()){
+//
+//                        Log.d(TAG,"("+i+")-"+reg);
+//                                i++;
+//                    }
                 }
             }
         });
+    }
+
+    private void setRecipeProperties(Recipe recipe) {
+        if (recipe != null) {
+            RequestOptions requestOptions = new RequestOptions()
+                    .placeholder(R.drawable.ic_launcher_background);
+
+            Glide.with(this)
+                    .setDefaultRequestOptions(requestOptions)
+                    .load(recipe.getImage_url())
+                    .into(mRecipeImage);
+
+            mRecipeTitle.setText(recipe.getTitle());
+            mRecipeRank.setText(String.valueOf(Math.round(recipe.getSocial_rank())));
+
+            // remove all the previous item
+            mRecipeIngredientsContainer.removeAllViews();
+
+            for (String ingredient : recipe.getIngredients()) {
+                TextView textView = new TextView(this);
+                textView.setText(ingredient);
+                textView.setTextSize(15);
+                textView.setLayoutParams(new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                ));
+                mRecipeIngredientsContainer.addView(textView);
+            }
+        }
+
+        showParent();
+        showProgressBar(false);
+
+    }
+
+    private void showParent() {
+        mScrollView.setVisibility(View.VISIBLE);
     }
 }
