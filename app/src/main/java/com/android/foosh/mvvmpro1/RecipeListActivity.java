@@ -1,6 +1,7 @@
 package com.android.foosh.mvvmpro1;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -72,6 +73,15 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
         recyclerView.setAdapter(mAdapter);
         VerticalSpacingItemDecorator decorator = new VerticalSpacingItemDecorator(30);
         recyclerView.addItemDecoration(decorator);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+               if(!recyclerView.canScrollVertically(1)){
+                   // search the next page...
+                   mRecipeListViewModel.searchNextPage();
+               }
+            }
+        });
 
     }
     private void subscribeObservers() {
@@ -146,6 +156,7 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
         }
 
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

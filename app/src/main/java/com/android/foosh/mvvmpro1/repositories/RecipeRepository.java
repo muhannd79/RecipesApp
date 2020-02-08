@@ -13,35 +13,45 @@ import java.util.List;
 public class RecipeRepository {
 
     private static RecipeRepository instance;
+    private RecipeApiClient mRecipeApiClient;
 
-private RecipeApiClient mRecipeApiClient;
+    private String mQuery;
+    private int mPageNumber;
 
-    public static RecipeRepository getInstance(){
-        Log.d("LifeCycle:","RecipeRepository,getInstance");
-        if(instance == null){
+    public static RecipeRepository getInstance() {
+        Log.d("LifeCycle:", "RecipeRepository,getInstance");
+        if (instance == null) {
             instance = new RecipeRepository();
         }
-        return  instance;
+        return instance;
     }
 
     public RecipeRepository() {
-        Log.d("LifeCycle:","RecipeRepository,Construcotre");
+        Log.d("LifeCycle:", "RecipeRepository,Construcotre");
         mRecipeApiClient = RecipeApiClient.getInstance();
 
     }
 
-   public   LiveData<List<Recipe>> getRecipes(){
+    public LiveData<List<Recipe>> getRecipes() {
 
-        return  mRecipeApiClient.getRecipes();
+        return mRecipeApiClient.getRecipes();
     }
-     public void searchRecipesApi(String query,int pageNumber){
-        if(pageNumber==0){
-            pageNumber=1;
-        }
-        mRecipeApiClient.searchRecipesApi(query,pageNumber);
-     }
 
-     public void cancelRequest(){
+    public void searchRecipesApi(String query, int pageNumber) {
+        if (pageNumber == 0) {
+            pageNumber = 1;
+        }
+        mRecipeApiClient.searchRecipesApi(query, pageNumber);
+        mQuery = query;
+        mPageNumber = pageNumber;
+    }
+
+    //we will have a new method for searching the new Search the next 30 intem
+    public void  searchNextPage(){
+        searchRecipesApi(mQuery,mPageNumber+1);
+    }
+
+    public void cancelRequest() {
         mRecipeApiClient.cancelRequest();
-     }
+    }
 }
