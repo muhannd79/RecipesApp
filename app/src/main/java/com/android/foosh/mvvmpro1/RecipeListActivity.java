@@ -20,6 +20,7 @@ import com.android.foosh.mvvmpro1.requests.ServiceGenerator;
 import com.android.foosh.mvvmpro1.requests.responses.RecipeSearchResponse;
 import com.android.foosh.mvvmpro1.util.Constans;
 import com.android.foosh.mvvmpro1.util.Printing;
+import com.android.foosh.mvvmpro1.util.VerticalSpacingItemDecorator;
 import com.android.foosh.mvvmpro1.viewmodels.RecipeListViewModel;
 
 import java.io.IOException;
@@ -63,6 +64,9 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
         mAdapter = new RecipeRecyclerAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter);
+        VerticalSpacingItemDecorator decorator = new VerticalSpacingItemDecorator(30);
+        recyclerView.addItemDecoration(decorator);
+
     }
     private void subscribeObservers() {
         mRecipeListViewModel.getRecipes().observe(this, new Observer<List<Recipe>>() {
