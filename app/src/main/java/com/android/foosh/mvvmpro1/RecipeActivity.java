@@ -58,6 +58,12 @@ public class RecipeActivity extends BaseActivity {
                 if(recipe != null){
                     Log.d(TAG,"onChanged: ---------------------------------");
                     Log.d(TAG,"onChanged:,"+recipe.getTitle());
+                    int i =1;
+                    for(String reg:recipe.getIngredients()){
+
+                        Log.d(TAG,"("+i+")-"+reg);
+                                i++;
+                    }
                 }
             }
         });
