@@ -46,7 +46,10 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
 
         initRecyclerView();
         subscribeObservers();
-        searchRecipesApi("chicken breast",1);
+
+        if(savedInstanceState == null) {
+            searchRecipesApi("cookies", 1);
+        }
 
 
     }
@@ -72,6 +75,7 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
 
 
     private void searchRecipesApi(String query, int pageNumber) {
+        Log.d("momomo","the method has been called...");
         mRecipeListViewModel.searchRecipesApi(query, pageNumber);
     }
 

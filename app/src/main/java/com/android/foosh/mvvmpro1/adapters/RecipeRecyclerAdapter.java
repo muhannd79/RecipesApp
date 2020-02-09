@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.foosh.mvvmpro1.R;
@@ -59,7 +60,12 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public void setRecipes(List<Recipe> recipes){
-        mRecipes = recipes;
-        notifyDataSetChanged();
+        if(recipes !=null){
+            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffutilHelper(mRecipes,recipes));
+            mRecipes = recipes;
+            //notifyDataSetChanged();
+            diffResult.dispatchUpdatesTo(this);
+        }
+
     }
 }
