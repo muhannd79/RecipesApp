@@ -62,9 +62,10 @@ public class RecipeApiClient {
 
         AppExecutors.get().networkIO().schedule(new Runnable() {
             @Override
-            //this is going to run after 3 second
+            //this is going to run after 3 second even if we are not going to call it.
             public void run() {
 
+                Log.d("ALiALi","Does this scheule will run after 3 second...1");
                 //this is going to stop the request - let the user know is timed out
                 handler.cancel(true);
             }
@@ -96,6 +97,7 @@ public class RecipeApiClient {
                 if (cancelRequest) {
                     return;
                 }
+                // if not true move forward for the request
                 if (response.code() == 200 && response.body() != null) {
                     List<Recipe> list = new ArrayList<>(((RecipeSearchResponse) response.body()).getRecipes());
                     if (pageNumber == 1) {
