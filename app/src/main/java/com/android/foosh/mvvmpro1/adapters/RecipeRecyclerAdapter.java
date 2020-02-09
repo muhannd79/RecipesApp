@@ -61,7 +61,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public void setRecipes(List<Recipe> recipes){
         if(recipes !=null){
-            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffutilHelper(mRecipes,recipes));
+            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtilHelper(mRecipes,recipes));
             mRecipes = recipes;
             //notifyDataSetChanged();
             diffResult.dispatchUpdatesTo(this);

@@ -6,12 +6,12 @@ import com.android.foosh.mvvmpro1.models.Recipe;
 
 import java.util.List;
 
-class DiffutilHelper extends DiffUtil.Callback {
+class DiffUtilHelper extends DiffUtil.Callback {
 
     List<Recipe> oldRecipes;
     List<Recipe> newRecipes;
 
-    public DiffutilHelper(List<Recipe> oldRecipes, List<Recipe> newRecipes) {
+    public DiffUtilHelper(List<Recipe> oldRecipes, List<Recipe> newRecipes) {
 
         this.oldRecipes = oldRecipes;
         this.newRecipes =newRecipes;
