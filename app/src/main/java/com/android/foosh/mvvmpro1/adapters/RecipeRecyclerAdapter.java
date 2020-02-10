@@ -18,7 +18,7 @@ import java.util.List;
 
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final String TAG = "RecipeListActivity";
+    private static final String TAG = "RecipeRecyclerAdapter";
     private static final int RECIPE_TYPE = 1;
     private static final int LOADING_TYPE = 2;
 
@@ -61,6 +61,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         int itemViewType = getItemViewType(position);
+        Log.d("View Pos","itemViewType="+itemViewType);
         if(itemViewType == RECIPE_TYPE) {
 
             RequestOptions requestOptions = new RequestOptions()
@@ -79,6 +80,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemViewType(int position) {
+        Log.d("View Pos","getItemViewType(position)="+position);
         if(mRecipes.get(position).getTitle().equals("LOADING...")){
             return LOADING_TYPE;
         }
@@ -99,6 +101,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             loadingList.add(recipe);
             // add he one obj to the mRecipes List
             mRecipes = loadingList;
+            Log.d(TAG,"notifyDataSetChanged,caled---------------");
             notifyDataSetChanged();
         }
     }
@@ -115,10 +118,16 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             // for the second search the MRecipe will not be empty so we need to check if not have the title Loading
             // we need to retrun false
             if(mRecipes.size() > 0){
-                if(mRecipes.get(mRecipes.size() - 1).getTitle().equals("LOADING...")){
-                    Log.d(TAG,"The (Title) of mRecipes:"+mRecipes.get(mRecipes.size() - 1).getTitle());
-                    return true;
+                int i=0;
+                for(Recipe res:mRecipes){
+
+                    Log.d("Titles=","The ("+i+") of mRecipes:"+res.getTitle());
+                    i++;
                 }
+//                if(mRecipes.get(mRecipes.size() - 1).getTitle().equals("LOADING...")){
+//                    Log.d(TAG,"The (Title) of mRecipes:"+mRecipes.get(mRecipes.size() - 1).getTitle());
+//                    return true;
+//                }
             }
         }
         return false;

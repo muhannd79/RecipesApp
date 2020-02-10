@@ -82,7 +82,7 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
                 Log.d(TAG,"displayLoading,called From Activites..!");
                 //(1)
                 mAdapter.displayLoading();
-             //   searchRecipesApi(query, 1);
+                searchRecipesApi(query, 1);
                 return false;
             }
 

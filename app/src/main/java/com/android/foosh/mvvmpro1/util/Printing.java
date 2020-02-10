@@ -10,10 +10,13 @@ public class Printing {
 
     public static void printRecipes(String tag, List<Recipe> recipes){
 
+        int i=0;
+        Log.d(tag, "The i ="+i);
         for (Recipe recipe:recipes){
-            if(recipe.getTitle().contains("LOADING...")) {
-                Log.d(tag, "printRecipes:" + recipe.getRecipe_id());
-            }
+         //   if(recipe.getTitle().contains("LOADING...")) {
+                Log.d(tag, "printRecipes("+i+"):" + recipe.getTitle());
+                i++;
+        //    }
         }
     }
 }
