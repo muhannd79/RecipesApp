@@ -30,6 +30,7 @@ public class RecipeApiClient {
     private MutableLiveData<Recipe> mRecipe;
     private RetrieveRecipesRunnable mRetrieveRecipesRunnable;
     private RetrieveRecipeRunnable mRetrieveRecipeRunnable;
+    private MutableLiveData<Boolean> mRecipeRequestTimeout = new MutableLiveData<>();
 
     public static RecipeApiClient getInstance() {
         Log.d("LifeCycle:", "RecipeApiClient,getInstance");
@@ -43,6 +44,10 @@ public class RecipeApiClient {
         Log.d("LifeCycle:", "RecipeApiClient,Construcotre");
         mRecipes = new MutableLiveData<>();
         mRecipe = new MutableLiveData<>();
+    }
+
+    public LiveData<Boolean> isRecipeRequestTimedOut(){
+        return mRecipeRequestTimeout;
     }
 
     public LiveData<List<Recipe>> getRecipes() {
@@ -84,7 +89,8 @@ public class RecipeApiClient {
 
     public void searchRecipeById(String recipeId){
         if(mRetrieveRecipeRunnable != null){
-            // we want to reset this obj when we reun a new query
+
+            // we want to reset this obj when we run a new query
             mRetrieveRecipeRunnable = null;
         }
         mRetrieveRecipeRunnable = new RetrieveRecipeRunnable(recipeId);
@@ -95,7 +101,7 @@ public class RecipeApiClient {
             @Override
             public void run() {
                 // let the user know it's timed out
-
+                mRecipeRequestTimeout.postValue(true);
                 handler.cancel(true);
             }
         }, NETWORK_TIMEOUT, TimeUnit.MILLISECONDS);

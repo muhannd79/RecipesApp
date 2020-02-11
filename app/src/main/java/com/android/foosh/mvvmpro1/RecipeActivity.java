@@ -46,6 +46,8 @@ public class RecipeActivity extends BaseActivity {
 
     }
 
+
+
     private void getIncomingIntent() {
 
         if (getIntent().hasExtra("recipe")) {
@@ -66,6 +68,7 @@ public class RecipeActivity extends BaseActivity {
                         // Because The Activity recreated and the Old recipe from the previous Activity still be in the ViewModel
 
                         setRecipeProperties(recipe);
+                        mRecipeViewModel.setRetrievedRecipe(tr);
                     }
 
 //                    Log.d(TAG,"onChanged: ---------------------------------");
@@ -76,6 +79,16 @@ public class RecipeActivity extends BaseActivity {
 //                        Log.d(TAG,"("+i+")-"+reg);
 //                                i++;
 //                    }
+                }
+            }
+        });
+
+        mRecipeViewModel.isRecipeRequestTimedOut().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if(aBoolean && !mRecipeViewModel.didRetrieveRecipe()){
+                    Log.d(TAG, "onChanged: timed out..");
+                  //  displayErrorScreen("Error retrieving data. Check network connection.");
                 }
             }
         });
