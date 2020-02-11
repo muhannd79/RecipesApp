@@ -96,7 +96,7 @@ public class RecipeApiClient {
         mRetrieveRecipeRunnable = new RetrieveRecipeRunnable(recipeId);
 
         final Future handler = AppExecutors.get().networkIO().submit(mRetrieveRecipeRunnable);
-
+        mRecipeRequestTimeout.postValue(false);
         AppExecutors.get().networkIO().schedule(new Runnable() {
             @Override
             public void run() {
